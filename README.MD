@@ -1,15 +1,30 @@
 # 🕵️ grCyb3r — Hacker's Hideout
-### TryHackMe | Splunk SIEM Investigation Write-Up
+### TryHackMe | Splunk (SIEM) Investigation Write-Up
+
+SOC Investigation documenting a two-phase attack involving LFI exploitation and SSH brute-force activity through log analysis and event correlation using Splunk SIEM.
+
+---
+
+## 🛠 Skills Demonstrated
+
+• SIEM Log Analysis (Splunk)  
+• Threat Detection  
+• Incident Investigation  
+• Event Correlation  
+• IOC Identification  
+• Attack Timeline Reconstruction  
+• Web Exploitation Analysis (LFI)  
+• SSH Brute-Force Detection  
 
 ---
 
 | Field | Details |
 |---|---|
-| **Platform** | TryHackMe |
+| **Platform** | TryHackMe - Ironhack Cybersecurity Bootcamp Final Scenario
 | **Room** | [Hacker's Hideout](https://tryhackme.com) |
 | **Incident Reference** | grCyb3r-THM 001-2026-03 |
 | **Date** | 12 March 2026 |
-| **Prepared by** | grCyb3r Team |
+| **Prepared by** | Fabio Martines Laiola — SOC Investigation Portfolio |
 | **Severity** | 🔴 Medium–Critical (Data Exposure & Credential Theft) |
 | **Systems Affected** | Web Server (`/var/log/apache2/access.log`), SSH Server (`/var/log/auth.log`) |
 | **SIEM Tool** | Splunk 9.1.1 |
@@ -240,4 +255,5 @@ index=* source="/var/log/auth.log" "Accepted password" "192.168.178.83"
 
 ---
 
-*grCyb3r Team — TryHackMe Write-Up Series*
+grCyb3r | Fabio Martines Laiola  
+SOC Investigation Portfolio | TryHackMe Write-Up Series

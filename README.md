@@ -20,7 +20,7 @@ SOC Investigation documenting a two-phase attack involving LFI exploitation and 
 
 | Field | Details |
 |---|---|
-| **Platform** | TryHackMe |
+| **Platform** | TryHackMe | Ironhack Cybersecurity Bootcamp Final Scenario
 | **Room** | [Hacker's Hideout](https://tryhackme.com) |
 | **Incident Reference** | grCyb3r-THM 001-2026-03 |
 | **Date** | 12 March 2026 |

@@ -56,7 +56,7 @@ This report details the investigation methodology, findings, and recommended mit
 index=* | stats count by source
 ```
 
-![Log sources](images/image1.png)
+![Log sources](image1.png)
 
 **Finding:** Two log sources identified:
 - `/var/log/apache2/access.log` — Web server logs
@@ -73,7 +73,7 @@ index=* source="/var/log/apache2/access.log"
 | sort -count
 ```
 
-![Attacker IP](images/image2.png)
+![Attacker IP](image2.png)
 
 **Finding:** Bulk activity (878 events) from `192.168.178.83` → attacker identified.
 
@@ -85,19 +85,19 @@ index=* source="/var/log/apache2/access.log"
 index=* source="/var/log/apache2/access.log" "192.168.178.83" | head 5
 ```
 
-![Attacker requests](images/image3.png)
+![Attacker requests](image3.png)
 
 ```spl
 index=* source="/var/log/apache2/access.log" "192.168.178.83" "200" | stats count
 ```
 
-![Files exposed count](images/image4.png)
+![Files exposed count](image4.png)
 
 ```spl
 index=* source="/var/log/apache2/access.log" "192.168.178.83" "200" "passwd"
 ```
 
-![passwd access](images/image5.png)
+![passwd access](image5.png)
 
 **Observations:**
 - Requests use the parameter `/index.php?page=` → **Local File Inclusion (LFI)**
@@ -130,7 +130,7 @@ index=* source="/var/log/apache2/access.log" "192.168.178.83" "200" "passwd"
 index=* source="/var/log/auth.log" "Failed password" "192.168.178.83" NOT "repeated" | stats count
 ```
 
-![Failed attempts](images/image6.png)
+![Failed attempts](image6.png)
 
 **Finding:** **195 failed login attempts** → brute force confirmed.
 
@@ -142,7 +142,7 @@ index=* source="/var/log/auth.log" "Failed password" "192.168.178.83" NOT "repea
 index=* source="/var/log/auth.log" "Accepted password" "192.168.178.83"
 ```
 
-![Successful login](images/image7.png)
+![Successful login](image7.png)
 
 **Finding:** Login succeeded — attacker gained shell access as user `ironhack` (PID: 51362).
 
@@ -153,7 +153,7 @@ Nov 20 14:41:11 ironhack sshd[51362]: Accepted password for ironhack from 192.16
 
 > 💡 The PID is embedded in the log format as `sshd[PID]` — `sshd[51362]` identifies the exact SSH process ID of that session.
 
-![Session details](images/image8.png)
+![Session details](image8.png)
 
 ---
 

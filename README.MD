@@ -1,30 +1,15 @@
 # 🕵️ grCyb3r — Hacker's Hideout
-### TryHackMe | Splunk (SIEM) Investigation Write-Up
-
-SOC Investigation documenting a two-phase attack involving LFI exploitation and SSH brute-force activity through log analysis and event correlation using Splunk SIEM.
-
----
-
-## 🛠 Skills Demonstrated
-
-• SIEM Log Analysis (Splunk)  
-• Threat Detection  
-• Incident Investigation  
-• Event Correlation  
-• IOC Identification  
-• Attack Timeline Reconstruction  
-• Web Exploitation Analysis (LFI)  
-• SSH Brute-Force Detection  
+### TryHackMe | Splunk SIEM Investigation Write-Up
 
 ---
 
 | Field | Details |
 |---|---|
-| **Platform** | TryHackMe - Ironhack Cybersecurity Bootcamp Final Scenario
+| **Platform** | TryHackMe |
 | **Room** | [Hacker's Hideout](https://tryhackme.com) |
 | **Incident Reference** | grCyb3r-THM 001-2026-03 |
 | **Date** | 12 March 2026 |
-| **Prepared by** | Fabio Martines Laiola — SOC Investigation Portfolio |
+| **Prepared by** | grCyb3r Team |
 | **Severity** | 🔴 Medium–Critical (Data Exposure & Credential Theft) |
 | **Systems Affected** | Web Server (`/var/log/apache2/access.log`), SSH Server (`/var/log/auth.log`) |
 | **SIEM Tool** | Splunk 9.1.1 |
@@ -71,7 +56,7 @@ This report details the investigation methodology, findings, and recommended mit
 index=* | stats count by source
 ```
 
-![Log sources](image1.png)
+![Log sources](images/image1.png)
 
 **Finding:** Two log sources identified:
 - `/var/log/apache2/access.log` — Web server logs
@@ -88,7 +73,7 @@ index=* source="/var/log/apache2/access.log"
 | sort -count
 ```
 
-![Attacker IP](image2.png)
+![Attacker IP](images/image2.png)
 
 **Finding:** Bulk activity (878 events) from `192.168.178.83` → attacker identified.
 
@@ -100,19 +85,19 @@ index=* source="/var/log/apache2/access.log"
 index=* source="/var/log/apache2/access.log" "192.168.178.83" | head 5
 ```
 
-![Attacker requests](image3.png)
+![Attacker requests](images/image3.png)
 
 ```spl
 index=* source="/var/log/apache2/access.log" "192.168.178.83" "200" | stats count
 ```
 
-![Files exposed count](image4.png)
+![Files exposed count](images/image4.png)
 
 ```spl
 index=* source="/var/log/apache2/access.log" "192.168.178.83" "200" "passwd"
 ```
 
-![passwd access](image5.png)
+![passwd access](images/image5.png)
 
 **Observations:**
 - Requests use the parameter `/index.php?page=` → **Local File Inclusion (LFI)**
@@ -145,7 +130,7 @@ index=* source="/var/log/apache2/access.log" "192.168.178.83" "200" "passwd"
 index=* source="/var/log/auth.log" "Failed password" "192.168.178.83" NOT "repeated" | stats count
 ```
 
-![Failed attempts](image6.png)
+![Failed attempts](images/image6.png)
 
 **Finding:** **195 failed login attempts** → brute force confirmed.
 
@@ -157,7 +142,7 @@ index=* source="/var/log/auth.log" "Failed password" "192.168.178.83" NOT "repea
 index=* source="/var/log/auth.log" "Accepted password" "192.168.178.83"
 ```
 
-![Successful login](image7.png)
+![Successful login](images/image7.png)
 
 **Finding:** Login succeeded — attacker gained shell access as user `ironhack` (PID: 51362).
 
@@ -168,7 +153,7 @@ Nov 20 14:41:11 ironhack sshd[51362]: Accepted password for ironhack from 192.16
 
 > 💡 The PID is embedded in the log format as `sshd[PID]` — `sshd[51362]` identifies the exact SSH process ID of that session.
 
-![Session details](image8.png)
+![Session details](images/image8.png)
 
 ---
 
@@ -255,5 +240,4 @@ index=* source="/var/log/auth.log" "Accepted password" "192.168.178.83"
 
 ---
 
-grCyb3r | Fabio Martines Laiola  
-SOC Investigation Portfolio | TryHackMe Write-Up Series
+*grCyb3r Team — TryHackMe Write-Up Series*
